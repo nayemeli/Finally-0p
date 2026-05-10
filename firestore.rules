@@ -1,0 +1,41 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    // 0. Global Safety Net
+    match /{document=**} {
+      allow read, write: if false;
+    }
+
+    // --- Transactions Collection ---
+    match /transactions/{transactionId} {
+      // Allowing public access for this version since login is removed
+      // Using a constant userID 'public-user-v1' to segregate data if needed later
+      allow read: if resource.data.userId == 'public-user-v1';
+
+      allow create: if isValidTransaction(request.resource.data)
+        && request.resource.data.userId == 'public-user-v1'
+        && request.resource.data.createdAt == request.time;
+
+      allow update: if resource.data.userId == 'public-user-v1'
+        && isValidTransaction(request.resource.data)
+        && request.resource.data.userId == resource.data.userId
+        && request.resource.data.createdAt == resource.data.createdAt
+        && (
+            request.resource.data.diff(resource.data).affectedKeys().hasOnly(['amount', 'category', 'note', 'date'])
+        );
+
+      allow delete: if resource.data.userId == 'public-user-v1';
+    }
+
+    function isValidTransaction(data) {
+      return data.keys().hasAll(['amount', 'type', 'category', 'date', 'userId', 'createdAt'])
+        && data.keys().size() >= 6
+        && data.amount is number && data.amount > 0
+        && data.type in ['income', 'expense']
+        && data.category is string && data.category.size() <= 100
+        && data.note is string && data.note.size() <= 1000
+        && data.userId is string && data.userId.size() <= 128
+        && data.date is string;
+    }
+  }
+}

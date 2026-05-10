@@ -1,0 +1,66 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;800;900&family=Plus+Jakarta+Sans:wght@400;600;800&display=swap');
+@import "tailwindcss";
+
+@theme {
+  --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
+  --font-display: "Plus Jakarta Sans", sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, SFMono-Regular, monospace;
+  
+  --color-brand: #0ea5e9;
+  --color-brand-light: #7dd3fc;
+  --color-brand-muted: rgba(14, 165, 233, 0.1);
+  --color-accent: #10b981;
+  --color-accent-muted: rgba(16, 185, 129, 0.1);
+  --color-surface-card: #081e22;
+  --color-surface-bg: #020a0d;
+}
+
+@utility tracking-tightest {
+  letter-spacing: -0.06em;
+}
+
+@utility border-soft {
+  border-color: rgba(255, 255, 255, 0.05);
+}
+
+@utility glass {
+  background: rgba(255, 255, 255, 0.03);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+}
+
+@layer base {
+  * {
+    -webkit-tap-highlight-color: transparent;
+  }
+  
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    @apply font-sans text-white bg-[var(--color-surface-bg)] antialiased;
+    text-rendering: optimizeLegibility;
+  }
+}
+
+@utility card-shadow {
+  box-shadow: 0 4px 24px -1px rgba(0, 0, 0, 0.4), 0 2px 8px -1px rgba(0, 0, 0, 0.2);
+}
+
+body {
+  @apply font-sans text-white bg-[var(--color-surface-bg)] antialiased;
+}
+
+::-webkit-scrollbar {
+  width: 4px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 10px;
+}

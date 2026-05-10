@@ -1,0 +1,49 @@
+{
+  "entities": {
+    "Transaction": {
+      "title": "Transaction",
+      "description": "An income or expense entry",
+      "type": "object",
+      "properties": {
+        "amount": {
+          "type": "number",
+          "description": "The amount of the transaction"
+        },
+        "type": {
+          "type": "string",
+          "enum": ["income", "expense"],
+          "description": "The type of transaction"
+        },
+        "category": {
+          "type": "string",
+          "description": "Category of the transaction (e.g., Food, Travel, Salary)"
+        },
+        "date": {
+          "type": "string",
+          "format": "date-time",
+          "description": "When the transaction occurred"
+        },
+        "note": {
+          "type": "string",
+          "description": "Additional notes for the transaction"
+        },
+        "userId": {
+          "type": "string",
+          "description": "The UID of the user who created this transaction"
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Server-side timestamp of creation"
+        }
+      },
+      "required": ["amount", "type", "category", "date", "userId", "createdAt"]
+    }
+  },
+  "firestore": {
+    "transactions": {
+      "schema": "Transaction",
+      "description": "Collection of all income and expense transactions"
+    }
+  }
+}
